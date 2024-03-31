@@ -554,7 +554,7 @@ namespace DamageMeter.Processing
             if (type == S_UPDATE_NPCGUILD.NpcGuildType.Vanguard
                 && credits >= (PacketProcessor.Instance.MessageFactory.Version == 351828
                 ? 9000
-                : PacketProcessor.Instance.Server.Name == "Menma's TERA" // todo: better check for this
+                : PacketProcessor.Instance.Server.Name == "Menma's TERA" || PacketProcessor.Instance.Server.Name == "MT: The Dream" // todo: better check for this
                 ? 100000
                 : 20000) - 500)// hope there wouldn't be any other versions until v86
                 // todo: get cap from DC
