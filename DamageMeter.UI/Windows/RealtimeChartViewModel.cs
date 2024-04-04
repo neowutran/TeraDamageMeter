@@ -212,7 +212,7 @@ public class RealtimeChartViewModel : TSPropertyChanged, IChartViewModel
                 if (isMe) color = BasicTeraData.Instance.WindowData.PlayerColor;
                 var colorTrans = Color.FromArgb(0, color.R, color.G, color.B);
                 var ls = 0;
-                if (BasicTeraData.Instance.WindowData.GraphMode == GraphMode.DPS) { ls = 1; }
+                //if (BasicTeraData.Instance.WindowData.GraphMode == GraphMode.DPS) { ls = 1; }
 
                 // create the series
                 var newValues = new ObservableCollection<ObservablePoint>();
