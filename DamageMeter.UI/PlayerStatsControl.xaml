@@ -29,22 +29,15 @@
                 Focusable="False"
                 Opacity="1"
                 HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                UseLayoutRounding="True"
                 Height="Auto" Width="Auto">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0 1">
                     <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=0}}" />
-                    <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=.2}}"
+                    <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=.18}}"
                                   Offset="1" />
                 </LinearGradientBrush>
             </Border.Background>
-            <Border.BorderBrush>
-                <LinearGradientBrush EndPoint="0 1">
-                    <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=0}}"
-                                  Offset=".6" />
-                    <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=.9}}"
-                                  Offset="1" />
-                </LinearGradientBrush>
-            </Border.BorderBrush>
             <Grid>
                 <Border x:Name="IndicatorGovernor"
                         HorizontalAlignment="Left"
@@ -53,9 +46,18 @@
                         <ScaleTransform ScaleX="0" />
                     </Border.LayoutTransform>
                 </Border>
-                <Border Background="{Binding Role, Converter={converters:RoleToColorConverter}}"
-                        VerticalAlignment="Bottom"
-                        Height="1" />
+                <Border VerticalAlignment="Bottom"
+                        Height="2" CornerRadius="0 1 1 0" >
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="1 0">
+                            <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=.1}}" 
+                                          Offset="0"/>
+                            <GradientStop Color="{Binding Role, Converter={converters:RoleToColorConverter Opacity=1}}"
+                                          Offset="1" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                </Border>
             </Grid>
         </Border>
 

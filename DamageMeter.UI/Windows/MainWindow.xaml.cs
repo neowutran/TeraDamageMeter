@@ -5,10 +5,12 @@ using Data;
 using Lang;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Nostrum.Factories;
@@ -218,6 +220,24 @@ namespace DamageMeter.UI
             if (BasicTeraData.Instance.WindowData.InvisibleUi)
                 HideWindow();
 
+            _playersOc = new Border
+            {
+                CornerRadius = new CornerRadius(0, 0, 8, 8),
+                Background = Brushes.White
+            };
+
+            DC.GraphData.PropertyChanged += OnGraphDataPropertyChanged;
+            PlayersContainer.SizeChanged += OnPlayersContainerSizeChanged;
+
+            if (!DC.GraphData.IsChartVisible)
+            {
+                PlayersContainer.OpacityMask = new VisualBrush
+                {
+                    Visual = _playersOc,
+                    Stretch = Stretch.Uniform
+                };
+            }
+
             if (BasicTeraData.Instance.WindowData.RememberPosition)
             {
                 LastSnappedPoint = BasicTeraData.Instance.WindowData.Location;
@@ -231,6 +251,35 @@ namespace DamageMeter.UI
             Top = 0;
             Left = 0;
         }
+
+        private void OnGraphDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(RealtimeChartViewModel.IsChartVisible))
+            {
+                return;
+            }
+
+            if (DC.GraphData.IsChartVisible)
+            {
+                PlayersContainer.OpacityMask = null;
+            }
+            else
+            {
+                PlayersContainer.OpacityMask = new VisualBrush
+                {
+                    Visual = _playersOc,
+                    Stretch = Stretch.Uniform
+                };
+            }
+        }
+
+        private void OnPlayersContainerSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (DC.GraphData.IsChartVisible) return;
+            _playersOc.Width = e.NewSize.Width;
+            _playersOc.Height = e.NewSize.Height;
+        }
+
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
             foreach (Window win in App.Current.Windows)
@@ -275,7 +324,11 @@ namespace DamageMeter.UI
         #region Done
 
         private readonly DoubleAnimation _expandFooterAnim = new DoubleAnimation(31, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
+        private readonly ThicknessAnimation _expandFooterMarginAnim = new ThicknessAnimation(new Thickness(0, 5, 0, 0), TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
         private readonly DoubleAnimation _shrinkFooterAnim = new DoubleAnimation(0, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
+        private readonly ThicknessAnimation _shrinkFooterMarginAnim = new ThicknessAnimation(new Thickness(0, 0, 0, 0), TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
+        private Border _playersOc;
+
         private void OnGraphMouseLeave(object sender, MouseEventArgs e)
         {
             App.HudContainer.TopMostOverride = true;
@@ -288,12 +341,16 @@ namespace DamageMeter.UI
         {
             DC.IsMouseOver = true;
             Footer.BeginAnimation(HeightProperty, _expandFooterAnim);
+            Footer.BeginAnimation(MarginProperty, _expandFooterMarginAnim);
+            FooterBorder.BeginAnimation(MarginProperty, _expandFooterMarginAnim);
             Toast.BeginAnimation(OpacityProperty, AnimationFactory.CreateDoubleAnimation(250, .2));
         }
         private void MainWindow_OnMouseLeave(object sender, MouseEventArgs e)
         {
             DC.IsMouseOver = false;
             Footer.BeginAnimation(HeightProperty, _shrinkFooterAnim);
+            Footer.BeginAnimation(MarginProperty, _shrinkFooterMarginAnim);
+            FooterBorder.BeginAnimation(MarginProperty, _shrinkFooterMarginAnim);
             Toast.BeginAnimation(OpacityProperty, AnimationFactory.CreateDoubleAnimation(250, 1));
         }
         //public override void SetClickThrou()
