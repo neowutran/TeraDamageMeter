@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace TCC.UI.Controls.Settings
+namespace DamageMeter.UI.Controls
 {
     public class CheckBoxExtensions
     {
@@ -13,5 +13,24 @@ namespace TCC.UI.Controls.Settings
         public static void SetSize(DependencyObject obj, double value) => obj.SetValue(SizeProperty, value);
 
 
+    }
+
+    public class ComboBoxExtensions
+    {
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached("CornerRadius",
+            typeof(CornerRadius),
+            typeof(ComboBoxExtensions),
+            new PropertyMetadata(new CornerRadius(0)));
+        public static CornerRadius GetCornerRadius(DependencyObject obj) => (CornerRadius)obj.GetValue(CornerRadiusProperty);
+        public static void SetCornerRadius(DependencyObject obj, CornerRadius value) => obj.SetValue(CornerRadiusProperty, value);
+    }
+    public class ToggleButtonExtensions
+    {
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached("CornerRadius",
+            typeof(CornerRadius),
+            typeof(ToggleButtonExtensions),
+            new PropertyMetadata(new CornerRadius(0)));
+        public static CornerRadius GetCornerRadius(DependencyObject obj) => (CornerRadius)obj.GetValue(CornerRadiusProperty);
+        public static void SetCornerRadius(DependencyObject obj, CornerRadius value) => obj.SetValue(CornerRadiusProperty, value);
     }
 }

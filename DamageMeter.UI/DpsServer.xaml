@@ -6,6 +6,7 @@
              xmlns:l="clr-namespace:Lang;assembly=Lang"
              xmlns:ui="clr-namespace:DamageMeter.UI" 
              xmlns:settings="clr-namespace:TCC.UI.Controls.Settings"
+             xmlns:controls="clr-namespace:DamageMeter.UI.Controls"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance ui:DpsServerViewModel}">
 
@@ -21,7 +22,7 @@
         <Grid.Resources>
             <Style TargetType="{x:Type CheckBox}">
                 <Setter Property="FocusVisualStyle" Value="{StaticResource EmptyFocusVisual}" />
-                <Setter Property="settings:CheckBoxExtensions.Size" Value="12" />
+                <Setter Property="controls:CheckBoxExtensions.Size" Value="12" />
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
                 <Setter Property="BorderThickness" Value="2" />
@@ -40,17 +41,17 @@
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                     CornerRadius="1">
                                     <Grid x:Name="markGrid"
-                                      Width="{TemplateBinding settings:CheckBoxExtensions.Size}"
-                                      Height="{TemplateBinding settings:CheckBoxExtensions.Size}">
+                                      Width="{TemplateBinding controls:CheckBoxExtensions.Size}"
+                                      Height="{TemplateBinding controls:CheckBoxExtensions.Size}">
                                         <Path x:Name="base"
                                           Data="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z"
                                           Stretch="Uniform"
-                                          Width="{TemplateBinding settings:CheckBoxExtensions.Size}"
-                                          Height="{TemplateBinding settings:CheckBoxExtensions.Size}"
+                                          Width="{TemplateBinding controls:CheckBoxExtensions.Size}"
+                                          Height="{TemplateBinding controls:CheckBoxExtensions.Size}"
                                           Margin="0" />
                                         <Path x:Name="optionMark"
-                                          Width="{TemplateBinding settings:CheckBoxExtensions.Size}"
-                                          Height="{TemplateBinding settings:CheckBoxExtensions.Size}"
+                                          Width="{TemplateBinding controls:CheckBoxExtensions.Size}"
+                                          Height="{TemplateBinding controls:CheckBoxExtensions.Size}"
                                           Data="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z"
                                           Fill="{TemplateBinding BorderBrush}" Margin="0" Opacity="0"
                                           Stretch="Uniform" />

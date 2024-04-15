@@ -12,6 +12,7 @@
                      xmlns:ui="clr-namespace:DamageMeter.UI"
                      xmlns:windows="clr-namespace:DamageMeter.UI.Windows"
                      xmlns:wpf="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+                     xmlns:controls="clr-namespace:DamageMeter.UI.Controls"
                      Title="{Binding WindowTitle}"
                      MinWidth="219"
                      MinHeight="60"
@@ -237,6 +238,7 @@
                 </Ellipse>
                 <TextBlock Grid.Column="1"
                            Margin="2 0"
+                           MaxWidth="{Binding ElementName=MainBorder}"
                            TextTrimming="CharacterEllipsis">
                     <Run Text="{Binding Info.Name, Mode=OneWay}">
                         <Run.Style>
@@ -273,19 +275,20 @@
 
         <Border x:Name="FooterBorder"
                 Style="{StaticResource BottomBorderStyle}" />
-        <Border Style="{StaticResource TopmostBorderStyle}" />
+        <Border Style="{StaticResource TopmostBorderStyle}" x:Name="MainBorder"/>
 
         <!--  Encounter  -->
         <Grid Name="EGrid"
-              Style="{StaticResource EncounterGridStyle}">
+              Style="{StaticResource EncounterGridStyle}"
+              >
             <ComboBox x:Name="ListEncounter"
                       Grid.Column="0"
                       Width="Auto"
                       Height="5"
-                      MinWidth="205"
                       MinHeight="29"
-                      MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}"
+                      MaxWidth="{Binding ElementName=MainBorder, Path=ActualWidth}"
                       Margin="0"
+                      controls:ComboBoxExtensions.CornerRadius="8 8 0 0"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Top"
                       HorizontalContentAlignment="Left"
@@ -313,7 +316,6 @@
             <Button Grid.Column="0"
                     Margin="1 0 5 0"
                     HorizontalAlignment="Left"
-                    Background="#1fff"
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center"
                     Command="{Binding ChangeTimeLeftCommand}"

@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:settings="clr-namespace:TCC.UI.Controls.Settings"
                     xmlns:extensions="clr-namespace:Nostrum.Extensions;assembly=Nostrum"
+                    xmlns:shinraControls="clr-namespace:DamageMeter.UI.Controls"
                     xmlns:controls="clr-namespace:Nostrum.Controls;assembly=Nostrum" 
                     xmlns:ui="clr-namespace:DamageMeter.UI">
 
@@ -168,7 +169,7 @@
             <Border
                 x:Name="Border"
                 Grid.ColumnSpan="2"
-                CornerRadius="2"
+                CornerRadius="{TemplateBinding shinraControls:ToggleButtonExtensions.CornerRadius}"
                 Background="{TemplateBinding Background}"
                 BorderBrush="Transparent"
                 BorderThickness="1" />
@@ -208,6 +209,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="shinraControls:ComboBoxExtensions.CornerRadius" Value="2" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="MinWidth" Value="120" />
         <Setter Property="MinHeight" Value="20" />
@@ -219,6 +221,7 @@
                                 Name="ToggleButton"
                                 Template="{StaticResource ComboBoxToggleButton}"
                                 Background="Transparent"
+                                shinraControls:ToggleButtonExtensions.CornerRadius="{TemplateBinding shinraControls:ComboBoxExtensions.CornerRadius}"
                                 Focusable="false"
                                 IsChecked="{Binding Path=IsDropDownOpen,RelativeSource={RelativeSource TemplatedParent}}"
                                 ClickMode="Press" />
