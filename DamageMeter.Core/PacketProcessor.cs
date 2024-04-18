@@ -483,7 +483,7 @@ namespace DamageMeter
         public void CheckUpdateUi(int packetsWaiting)
         {
             var second = DateTime.UtcNow.Ticks;
-            if (second - _lastTick < TimeSpan.TicksPerSecond) { return; }
+            if (second - _lastTick < TimeSpan.TicksPerSecond/* / BasicTeraData.Instance.WindowData.UpdatesPerSecond*/) { return; }
             UpdateUi(packetsWaiting);
         }
 

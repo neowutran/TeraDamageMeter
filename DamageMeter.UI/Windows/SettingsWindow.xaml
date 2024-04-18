@@ -324,6 +324,9 @@
                                                SettingName="{x:Static lang:LP.SystemTray_OtherWindowOpacity}"
                                                Min="0.1" Max="1" />
                         <settings:ValueSetting Value="{Binding Scale, Mode=TwoWay}" SettingName="Scale" Min="0" Max="5" />
+                        <!--<settings:ValueSetting Value="{Binding UpdatesPerSecond, Mode=TwoWay}"
+                                               SettingName="{x:Static lang:LP.UpdatesPerSecond}" Min="1" Max="20" />-->
+
                         <Grid Margin="35 10 0 10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />

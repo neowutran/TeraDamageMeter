@@ -696,6 +696,16 @@ namespace DamageMeter.UI.Windows
                 NotifyPropertyChanged();
             }
         }
+        public int UpdatesPerSecond
+        {
+            get => Data.UpdatesPerSecond;
+            set
+            {
+                if (Data.UpdatesPerSecond == value) return;
+                Data.UpdatesPerSecond = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // event
         public bool EnableChatAndNotif

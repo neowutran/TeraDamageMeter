@@ -169,6 +169,7 @@ namespace Data
                 Parse("display_only_boss_hit_by_meter_user", nameof(displayOnlyBossHitByMeterUser));
                 Parse("show_crit_damage_rate", nameof(showCritDamageRate));
                 Parse("ignore_packets_threshold", nameof(ignorePacketsThreshold));
+                Parse("updates_per_second", nameof(updatesPerSecond));
                 Parse("auto_disable_chat_when_overloaded", nameof(autoDisableChatWhenOverloaded));
                 Parse("showhealcrit", nameof(showHealCrit));
                 Parse("showtimeleft", nameof(showTimeLeft));
@@ -423,6 +424,7 @@ namespace Data
         private CaptureMode captureMode;
         private GraphMode graphMode;
 
+        private int updatesPerSecond = 1;
         public bool DisplayTimerBasedOnAggro { get => displayTimerBasedOnAggro; set { displayTimerBasedOnAggro = value; /*Save();*/ } }
 
         public bool EnableOverlay { get => enableOverlay; set { enableOverlay = value; /*Save();*/ } }
@@ -519,6 +521,8 @@ namespace Data
         public int RealtimeGraphCMAseconds { get => realtimeGraphCMAseconds; set { realtimeGraphCMAseconds = value; /*Save();*/ } }
 
         public bool IgnorePacketsThreshold { get => ignorePacketsThreshold; set { ignorePacketsThreshold = value; /*Save();*/ } }
+
+        public int UpdatesPerSecond { get => updatesPerSecond; set { updatesPerSecond = Math.Max(1, value); /*Save();*/ } }
 
         public Color DpsColor { get => _dpsColor; set { _dpsColor = value; /*Save();*/ } }
         public Color PlayerColor { get => _playerColor; set { _playerColor = value; /*Save();*/ } }
@@ -770,6 +774,7 @@ namespace Data
                 xml.Root.Add(new XElement("autoDisableChatWhenOverloaded", autoDisableChatWhenOverloaded));
                 xml.Root.Add(new XElement("autoupdate", autoUpdate));
                 xml.Root.Add(new XElement("ignore_packets_threshold", ignorePacketsThreshold));
+                xml.Root.Add(new XElement("updates_per_second", updatesPerSecond));
                 xml.Root.Add(new XElement("remember_position", rememberPosition));
                 //xml.Root.Add(new XElement("winpcap", winpcap));
                 xml.Root.Add(new XElement("capture_mode", captureMode));

@@ -892,4 +892,7 @@ Reset and paused until map change or relog.</value>
   <data name="SystemTray_SnapToBorders" xml:space="preserve">
     <value>Snap windows to borders</value>
   </data>
+  <data name="UpdatesPerSecond" xml:space="preserve">
+    <value>UI updates per second (higher resources usage)</value>
+  </data>
 </root>
