@@ -27,6 +27,7 @@ namespace DamageMeter.UI
                 if (Server.Data.Enabled == value) return;
                 Server.Data.Enabled = value;
                 NotifyPropertyChanged();
+                SettingsWindowViewModel.NotifyServerEnabledToggled(this);
             }
         }
         public string Token

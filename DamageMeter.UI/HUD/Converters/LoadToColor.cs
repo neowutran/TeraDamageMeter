@@ -9,9 +9,9 @@ namespace DamageMeter.UI.HUD.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is int val)) return new SolidColorBrush(Color.FromArgb(0x22, 0xff, 0xff, 0xff));
+            if (value is not int val) return new SolidColorBrush(Color.FromArgb(0x22, 0xff, 0xff, 0xff));
 
-            return val > 1000 && val < 5000
+            return val is > 1000 and < 5000
                 ? Brushes.DarkOrange
                 : val >= 5000
                     ? new SolidColorBrush(Color.FromRgb(0xff, 30, 0x40))
@@ -33,6 +33,28 @@ namespace DamageMeter.UI.HUD.Converters
             var min = Math.Min(5000D, val);
             var ret =  (min/ 5000D) * 359.99;
             return ret;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class LoadToSvg : IValueConverter
+    {
+        public StreamGeometry? Ok{ get; set; }
+        public StreamGeometry? Warn{ get; set; }
+        public StreamGeometry? Critical{ get; set; }
+
+        public object? Convert(object? value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is not int val) return Ok;
+            return val is > 1000 and < 5000
+                ? Warn
+                : val >= 5000
+                    ? Critical
+                    : Ok;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

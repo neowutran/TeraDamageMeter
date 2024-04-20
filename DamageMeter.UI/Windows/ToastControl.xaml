@@ -1,23 +1,41 @@
 ﻿<UserControl x:Class="DamageMeter.UI.Windows.ToastControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:windows="clr-namespace:DamageMeter.UI.Windows"
              UseLayoutRounding="True"
-             mc:Ignorable="d" >
-    <Grid >
-        <Border CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=windows:ToastControl}}"
+             mc:Ignorable="d">
+    <Grid HorizontalAlignment="Center">
+        <Border x:Name="MainBorder"
+                CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=windows:ToastControl}}"
                 Opacity="0"
-                x:Name="MainBorder">
-            <TextBlock Text="{Binding ToastText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=windows:ToastControl}}"
-                       Margin="10 5"
-                       TextAlignment="Center"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       TextWrapping="Wrap"/>
+                Background="{StaticResource MainBgBrush}">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Path Data="{StaticResource Svg.Info}"
+                      Fill="#6fff"
+                      Stretch="Uniform"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      Margin="5"
+                      Width="16" Height="16"
+                      x:Name="Icon"/>
+                
+                <TextBlock Grid.Column="1"
+                           Margin="5 5"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Text="{Binding ToastText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=windows:ToastControl}}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+            </Grid>
             <Border.RenderTransform>
-                <TranslateTransform/>
+                <TranslateTransform />
             </Border.RenderTransform>
         </Border>
     </Grid>

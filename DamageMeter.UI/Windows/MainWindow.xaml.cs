@@ -64,12 +64,18 @@ namespace DamageMeter.UI
             App.SplashScreen?.CloseWindowSafe();
 
             if (App.ToolboxMode) App.StartToolboxProcessCheck();
+
+            Messages.SizeChanged += OnMessagesChanged;
         }
 
-        private void ListEncounterOnPreviewKeyDown(object sender, KeyEventArgs keyEventArgs)
+        private void OnMessagesChanged(object sender, SizeChangedEventArgs e)
         {
-            keyEventArgs.Handled = true;
+            MessageBorder.BeginAnimation(MarginProperty, 
+                e.NewSize.Height == 0 
+                ? _shrinkFooterMarginAnim 
+                : _expandFooterMarginAnim);
         }
+
         public void UpdateKeyboard(object o, EventArgs args)
         {
             var teraWindowActive = TeraWindow.IsTeraActive();
@@ -220,23 +226,7 @@ namespace DamageMeter.UI
             if (BasicTeraData.Instance.WindowData.InvisibleUi)
                 HideWindow();
 
-            _playersOc = new Border
-            {
-                CornerRadius = new CornerRadius(0, 0, 8, 8),
-                Background = Brushes.White
-            };
 
-            DC.GraphData.PropertyChanged += OnGraphDataPropertyChanged;
-            PlayersContainer.SizeChanged += OnPlayersContainerSizeChanged;
-
-            if (!DC.GraphData.IsChartVisible)
-            {
-                PlayersContainer.OpacityMask = new VisualBrush
-                {
-                    Visual = _playersOc,
-                    Stretch = Stretch.Uniform
-                };
-            }
 
             if (BasicTeraData.Instance.WindowData.RememberPosition)
             {
@@ -252,33 +242,6 @@ namespace DamageMeter.UI
             Left = 0;
         }
 
-        private void OnGraphDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(RealtimeChartViewModel.IsChartVisible))
-            {
-                return;
-            }
-
-            if (DC.GraphData.IsChartVisible)
-            {
-                PlayersContainer.OpacityMask = null;
-            }
-            else
-            {
-                PlayersContainer.OpacityMask = new VisualBrush
-                {
-                    Visual = _playersOc,
-                    Stretch = Stretch.Uniform
-                };
-            }
-        }
-
-        private void OnPlayersContainerSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (DC.GraphData.IsChartVisible) return;
-            _playersOc.Width = e.NewSize.Width;
-            _playersOc.Height = e.NewSize.Height;
-        }
 
         private void MainWindow_OnClosed(object sender, EventArgs e)
         {
@@ -290,30 +253,6 @@ namespace DamageMeter.UI
                 ctw.Close();
             }
         }
-        private void ListEncounter_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count != 1) { return; }
-
-            NpcEntity encounter = null;
-            if (e.AddedItems[0] is NpcEntity en && en != MainViewModel.TotalEncounter)
-            {
-                encounter = en;
-            }
-
-            if (encounter != PacketProcessor.Instance.Encounter)
-            {
-                PacketProcessor.Instance.NewEncounter = encounter;
-            }
-        }
-        private void ListEncounter_OnDropDownOpened(object sender, EventArgs e)
-        {
-            App.HudContainer.TopMostOverride = false;
-        }
-        private void ListEncounter_OnDropDownClosed(object sender, EventArgs e)
-        {
-            App.HudContainer.TopMostOverride = true;
-        }
-
         public void Dispose()
         {
             ForceHidden = true;
@@ -323,11 +262,10 @@ namespace DamageMeter.UI
 
         #region Done
 
-        private readonly DoubleAnimation _expandFooterAnim = new DoubleAnimation(31, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
-        private readonly ThicknessAnimation _expandFooterMarginAnim = new ThicknessAnimation(new Thickness(0, 5, 0, 0), TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
-        private readonly DoubleAnimation _shrinkFooterAnim = new DoubleAnimation(0, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
-        private readonly ThicknessAnimation _shrinkFooterMarginAnim = new ThicknessAnimation(new Thickness(0, 0, 0, 0), TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
-        private Border _playersOc;
+        private readonly DoubleAnimation _expandFooterAnim = new(31, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
+        private readonly ThicknessAnimation _expandFooterMarginAnim = new(new Thickness(0, 5, 0, 0), TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
+        private readonly DoubleAnimation _shrinkFooterAnim = new(0, TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
+        private readonly ThicknessAnimation _shrinkFooterMarginAnim = new(new Thickness(0, 0, 0, 0), TimeSpan.FromMilliseconds(250)) { EasingFunction = new QuadraticEase() };
 
         private void OnGraphMouseLeave(object sender, MouseEventArgs e)
         {

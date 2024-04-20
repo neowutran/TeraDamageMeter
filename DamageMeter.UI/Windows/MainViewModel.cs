@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -135,7 +136,7 @@ namespace DamageMeter.UI
         /// <summary>
         /// This will be used for "TOTAL" encounter
         /// </summary>
-        public static readonly NpcEntity TotalEncounter = new NpcEntity(EntityId.Empty, EntityId.Empty, null, new NpcInfo(0, 0, false, 0, LP.TotalEncounter, ""), new Vector3f(), new Angle()); // TODO: replace NpcEntity with an EncounterViewModel
+        public static readonly NpcEntity TotalEncounter = new(EntityId.Empty, EntityId.Empty, null, new NpcInfo(0, 0, false, 0, LP.TotalEncounter, ""), new Vector3f(), new Angle()); // TODO: replace NpcEntity with an EncounterViewModel
 
         public string WindowTitle
         {
@@ -332,7 +333,18 @@ namespace DamageMeter.UI
             }
         }
 
-        public string ConnectionStatusText => Connected ? PacketProcessor.Instance.Server?.Name : LP.SystemTray_No_server;
+        private bool _serverUploadEnabled;
+        public bool ServerUploadEnabled
+        {
+            get => _serverUploadEnabled;
+            set
+            {
+                if (_serverUploadEnabled == value) return;  
+                _serverUploadEnabled = value;
+                NotifyPropertyChanged();
+            }
+        }
+        public string ConnectionStatusText => Connected ? PacketProcessor.Instance.Server?.Name ?? "Unknown server" : LP.SystemTray_No_server;
 
         public Color BackgroundColor => BasicTeraData.Instance.WindowData.BackgroundColor;
         public Color BorderColor => BasicTeraData.Instance.WindowData.BorderColor;
@@ -384,7 +396,8 @@ namespace DamageMeter.UI
             WindowTitle = "Shinra Meter v" + UpdateManager.Version;
             GraphData = new RealtimeChartViewModel();
             ToastData = new ToastViewModel();
-            Encounters = new SynchronizedObservableCollection<NpcEntity>();
+            Encounters = [ TotalEncounter ];
+            SelectedEncounter = TotalEncounter;
             Players = new SynchronizedObservableCollection<PlayerDamageViewModel>();
             PlayersView = CollectionViewFactory.CreateLiveCollectionView(Players,
                 sortFilters: new[]
@@ -403,6 +416,10 @@ namespace DamageMeter.UI
             SettingsWindowViewModel.NumberOfPlayersDisplayedChanged += OnNumberOfPlayersDisplayedChanged;
             SettingsWindowViewModel.WindowColorsChanged += OnWindowColorsChanged;
 
+            ServerUploadEnabled = BasicTeraData.Instance.WindowData.DpsServers.Any(x => x.Enabled && !string.IsNullOrEmpty(x.UploadUrl.AbsoluteUri));
+            SettingsWindowViewModel.ServerRemoved += OnUploadServerChanged;
+            SettingsWindowViewModel.ServerToggled += OnUploadServerChanged;
+
             BasicTeraData.Instance.WindowData.ClickThruChanged += OnClickThruChanged;
             DataExporter.FightSendStatusUpdated += OnFightSendStatusUpdated;
 
@@ -416,6 +433,11 @@ namespace DamageMeter.UI
             ChangeTimeLeftCommand = new RelayCommand(_ => ShowTimeLeft = !ShowTimeLeft);
             OpenSettingsCommand = new RelayCommand(_ => SettingsWindow.ShowWindow());
 
+        }
+
+        private void OnUploadServerChanged(DpsServerViewModel server)
+        {
+            ServerUploadEnabled = BasicTeraData.Instance.WindowData.DpsServers.Any(x => x.Enabled && !string.IsNullOrEmpty(x.UploadUrl?.AbsoluteUri));
         }
 
         private void OnFightSendStatusUpdated(DataExporter.FightSendStatus status, string txt)
@@ -541,11 +563,19 @@ namespace DamageMeter.UI
             }
 
             //todo: sync the list without resetting it
-            Encounters.Clear();
-            Encounters.Add(TotalEncounter);
+            //Encounters.Clear();
+            
+            var toRemove = Encounters.Where(x => x != TotalEncounter)
+                .Where(x => !entities.Any(e => x.Id.Id == e.Id.Id)).ToArray();
 
+            foreach (var encounter in toRemove)
+            {
+                Encounters.Remove(encounter);
+            }
+
+            var toAdd = entities.Where(x => !Encounters.Any(e => x.Id.Id == e.Id.Id)).ToArray();
             var selected = false;
-            foreach (var entity in entities)
+            foreach (var entity in toAdd)
             {
                 Encounters.Add(entity);
                 if (entity != selectedEntity) continue;

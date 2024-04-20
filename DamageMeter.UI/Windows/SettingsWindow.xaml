@@ -60,18 +60,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style TargetType="{x:Type ToolTip}">
-            <Setter Property="Background" Value="{StaticResource KrBorderColor}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock TextWrapping="Wrap" Text="{Binding}" MaxWidth="600" />
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style TargetType="TabItem">
             <Setter Property="Foreground" Value="{StaticResource LightSecondaryText}" />
             <Setter Property="Background" Value="Transparent" />

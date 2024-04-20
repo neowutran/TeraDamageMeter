@@ -11,7 +11,6 @@ namespace DamageMeter.UI
 {
     public partial class Skills
     {
-        private readonly PlayerStats _parent;
         private Buff _buff;
         private SkillsLog _skillDealtLog;
         private SkillsDetail _skillDps;
@@ -72,13 +71,7 @@ namespace DamageMeter.UI
             #endregion
 
         }
-        public Skills(PlayerStats parent, PlayerDamageDealt playerDamageDealt, EntityInformation entityInformation, Database.Structures.Skills skills, PlayerAbnormals buffs, bool timedEncounter)
-        {
-            Owner = GetWindow(parent);
-            InitializeComponent();
-            _parent = parent;
-            Update(playerDamageDealt, entityInformation, skills, buffs, timedEncounter);
-        }
+
 
         public void Update(PlayerDamageDealt playerDamageDealt, EntityInformation entityInformation, Database.Structures.Skills skills, PlayerAbnormals buffs, bool timedEncounter)
         {
@@ -123,15 +116,10 @@ namespace DamageMeter.UI
 
             _skillCounter = new SkillsDetail(SkillAggregate.GetAggregate(playerDamageDealt, entityInformation.Entity, _skills, timedEncounter, Database.Database.Type.Counter), Database.Database.Type.Counter);
             CounterPanel.Content = _skillCounter;
-            _skillDealtLog = new SkillsLog(_skills?.GetSkillsDealt(playerDamageDealt.Source.User, entityInformation.Entity, timedEncounter), false);
+            _skillDealtLog = new SkillsLog(_skills.GetSkillsDealt(playerDamageDealt.Source.User, entityInformation.Entity, timedEncounter), false);
             SkillsDealtPanel.Content = _skillDealtLog;
-            _skillReceivedLog = new SkillsLog(_skills?.GetSkillsReceived(playerDamageDealt.Source.User, timedEncounter), true);
+            _skillReceivedLog = new SkillsLog(_skills.GetSkillsReceived(playerDamageDealt.Source.User, timedEncounter), true);
             SkillsReceivedPanel.Content = _skillReceivedLog;
-        }
-
-        private void Button_OnClick(object sender, RoutedEventArgs e)
-        {
-            _parent.CloseSkills();
         }
 
         private void ClickThrouWindow_Loaded(object sender, RoutedEventArgs e)

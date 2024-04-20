@@ -6,6 +6,10 @@
     <converters:PlayersDisplayedCountToSizeConverter x:Key="PlayersCountToSize" />
     <converters:ClassToSvgConverter x:Key="ClassToSvg" />
     <converters:LoadToColor x:Key="LoadToColor" />
+    <converters:LoadToSvg x:Key="LoadToSvg" 
+                          Ok="{StaticResource Svg.Check}"
+                          Warn="{StaticResource Svg.Exclamation}"
+                          Critical="{StaticResource Svg.Close}"/>
     <converters:LoadToAngle x:Key="LoadToAngle" />
     <converters:TransparencyToMarginConverter x:Key="BoolToMargin" />
     <nostrumConv:RoundedClipConverter x:Key="RoundedClipConverter"/>

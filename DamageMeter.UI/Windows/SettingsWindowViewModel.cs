@@ -649,7 +649,7 @@ namespace DamageMeter.UI.Windows
 
 
         // dps servers
-        public ObservableCollection<DpsServerViewModel> DpsServers { get; } = new ObservableCollection<DpsServerViewModel>();
+        public ObservableCollection<DpsServerViewModel> DpsServers { get; } = [];
 
 
         // misc
@@ -951,12 +951,13 @@ namespace DamageMeter.UI.Windows
             }
         }
 
-        public static event Action<DpsServerViewModel> ServerRemoved;
-        public static event Action<double> WindowScaleChanged;
-        public static event Action<int> NumberOfPlayersDisplayedChanged;
-        public static event Action WindowColorsChanged;
-        public static event Action<double> OtherWindowsOpacityChanged;
-        public static event Action PauseChanged;
+        public static event Action<DpsServerViewModel>? ServerRemoved;
+        public static event Action<DpsServerViewModel>? ServerToggled;
+        public static event Action<double>? WindowScaleChanged;
+        public static event Action<int>? NumberOfPlayersDisplayedChanged;
+        public static event Action? WindowColorsChanged;
+        public static event Action<double>? OtherWindowsOpacityChanged;
+        public static event Action? PauseChanged;
 
         public ICommand AddServerCommand { get; }
         public ICommand SetViewCommand { get; }
@@ -1111,6 +1112,10 @@ namespace DamageMeter.UI.Windows
         {
             ServerRemoved?.Invoke(dpsServerViewModel);
         }
+        public static void NotifyServerEnabledToggled(DpsServerViewModel dpsServerViewModel)
+        {
+            ServerToggled?.Invoke(dpsServerViewModel);
+        }
 
         private void UpdateTopMost()
         {
@@ -1202,6 +1207,7 @@ namespace DamageMeter.UI.Windows
                 NotifyPropertyChanged();
             }
         }
+
     }
 
     public class CopyKeyVM : TSPropertyChanged

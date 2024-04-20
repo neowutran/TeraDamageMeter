@@ -484,7 +484,7 @@ namespace DamageMeter.UI
 
         private void SwitchCritMode()
         {
-            if (Class == PlayerClass.Priest || Class == PlayerClass.Mystic)
+            if (Class is PlayerClass.Priest or PlayerClass.Mystic)
             {
                 BasicTeraData.Instance.WindowData.ShowHealCrit = !BasicTeraData.Instance.WindowData.ShowHealCrit;
             }
