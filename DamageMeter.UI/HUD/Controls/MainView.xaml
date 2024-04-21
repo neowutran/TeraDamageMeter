@@ -325,7 +325,7 @@
             </Border.OpacityMask>
             <Path Width="200"
                   Height="200"
-                  Margin="0 -20 -30 20"
+                  Margin="0 -20 -25 20"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center"
                   Data="{StaticResource Svg.HPBar}"
@@ -364,8 +364,6 @@
                     </Style>
                 </ComboBox.ItemContainerStyle>-->
             </ComboBox>
-
-
         </Grid>
 
         <!--  General stats  -->
@@ -380,21 +378,22 @@
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="59" />
+                    <ColumnDefinition Width="70" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0"
-                        Height="22"
-                        Margin="0 0 0 0"
+                        Height="26"
+                        Margin="-3 -4 0 -4"
                         Padding="4 2"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        extensions:ButtonExtensions.CornerRadius="11"
+                        extensions:ButtonExtensions.CornerRadius="0 13 13 0"
+                        BorderBrush="#2fff"
                         Background="#1aaa"
                         Command="{Binding ChangeTimeLeftCommand}"
                         Style="{StaticResource ButtonMainStyle}">
@@ -404,7 +403,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <Path Grid.Column="1"
-                              Margin="4 0 0 0"
+                              Margin="4 0 2 0"
                               VerticalAlignment="Center"
                               Data="{StaticResource Svg.Timer}">
                             <Path.Style>
@@ -421,9 +420,12 @@
                         </Path>
 
                         <TextBlock x:Name="Timer"
-                                   Margin="5 0 0 1"
+                                   Margin="4 0 0 1"
+                                   FontSize="16"
+                                   FontWeight="DemiBold"
                                    Style="{StaticResource GeneralStatTextStyle}"
-                                   Text="{Binding TimerText, Mode=OneWay}" />
+                                   Text="{Binding TimerText, Mode=OneWay}"
+                                   />
                     </Grid>
                 </Button>
                 <Border Grid.Column="1"
