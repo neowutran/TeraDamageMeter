@@ -117,11 +117,6 @@
                BasedOn="{StaticResource BackgroundBorderStyle}"
                TargetType="Border">
             <Setter Property="CornerRadius" Value="8" />
-            <Setter Property="Background">
-                <Setter.Value>
-                    <SolidColorBrush Color="{Binding BackgroundColor, Converter={nostrum:ColorBrightnessConverter Factor=0.5}}" />
-                </Setter.Value>
-            </Setter>
         </Style>
         <Style x:Key="MessagesBorderStyle"
                BasedOn="{StaticResource BottomBorderStyle}"
